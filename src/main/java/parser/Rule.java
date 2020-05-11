@@ -13,23 +13,9 @@ public class Rule {
     private List<GrammarSymbol> RHS;
     private int semanticAction;
     public Rule(String stringRule) {
-        int index = stringRule.indexOf("#");
-        if (index != -1) {
-            try {
-            semanticAction = Integer.parseInt(stringRule.substring(index + 1));
-            }catch (NumberFormatException ex){
-                semanticAction = 0;
-            }
-            stringRule = stringRule.substring(0, index);
-        } else {
-            semanticAction = 0;
-        }
+        stringRule = stringIndex(stringRule);
         String[] splited = stringRule.split("->");
-//        try {
-            LHS = NonTerminal.valueOf(splited[0]);
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
+        LHS = NonTerminal.valueOf(splited[0]);
         RHS = new ArrayList<GrammarSymbol>();
         if (splited.length > 1) {
             String[] RHSs = splited[1].split(" ");
@@ -37,14 +23,24 @@ public class Rule {
                 try {
                     getRHS().add(new GrammarSymbol(NonTerminal.valueOf(s)));
                 } catch (Exception e) {
-//                    try{
-                        getRHS().add(new GrammarSymbol(new Token(Token.getTyepFormString(s), s)));
-//                    }catch (IllegalArgumentException d){
-//                        d.printStackTrace();
-//                        Log.print(s);
-//                    }
+                    getRHS().add(new GrammarSymbol(new Token(Token.getTyepFormString(s), s)));
                 }
             }
+        }
+    }
+
+    private String stringIndex(String stringRule){
+        int index = stringRule.indexOf("#");
+        if (index != -1) {
+            try {
+                semanticAction = Integer.parseInt(stringRule.substring(index + 1));
+            }catch (NumberFormatException ex){
+                semanticAction = 0;
+            }
+            return stringRule.substring(0, index);
+        } else {
+            semanticAction = 0;
+            return stringRule;
         }
     }
 
