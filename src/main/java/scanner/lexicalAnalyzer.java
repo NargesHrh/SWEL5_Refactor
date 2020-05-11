@@ -4,6 +4,7 @@ import errorhandler.ErrorHandler;
 import scanner.token.Token;
 import scanner.type.Type;
 
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,15 +14,24 @@ public class lexicalAnalyzer {
 
 
     public lexicalAnalyzer(java.util.Scanner sc) {
-        StringBuilder input = new StringBuilder();
-        while (sc.hasNext()) {
-            input.append(sc.nextLine());
-        }
+        StringBuilder input = generateStringFromScanner(sc);
+        matcher = generateMatcher(input);
+    }
+
+    private Matcher generateMatcher(StringBuilder input){
         StringBuilder tokenPattern = new StringBuilder();
         for (Type tokenType : Type.values())
             tokenPattern.append(String.format("|(?<%s>%s)", tokenType.name(), tokenType.pattern));
         Pattern expression = Pattern.compile(tokenPattern.substring(1));
-        matcher = expression.matcher(input.toString());
+        return expression.matcher(input.toString());
+    }
+
+    private StringBuilder generateStringFromScanner(Scanner sc){
+        StringBuilder input = new StringBuilder();
+        while (sc.hasNext()) {
+            input.append(sc.nextLine());
+        }
+        return input;
     }
 
     public Token getNextToken() {
