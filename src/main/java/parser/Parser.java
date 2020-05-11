@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Stack;
 
 import codegenerator.CodeGeneratorFacade;
-import errorHandler.ErrorHandler;
+import errorhandler.ErrorHandler;
 import scanner.lexicalAnalyzer;
 import scanner.token.Token;
 
