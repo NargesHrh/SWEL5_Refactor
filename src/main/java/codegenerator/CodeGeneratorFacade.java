@@ -1,5 +1,6 @@
 package codegenerator;
 
+import parser.Rule;
 import scanner.token.Token;
 
 public class CodeGeneratorFacade {
@@ -14,7 +15,7 @@ public class CodeGeneratorFacade {
         cg.printMemory();
     }
 
-    public void semanticFunction(int func, Token next) {
-        cg.semanticFunction(func, next);
+    public void semanticFunction(Rule rule, Token next) {
+        cg.semanticFunction(rule.getSemanticAction(), next);
     }
 }

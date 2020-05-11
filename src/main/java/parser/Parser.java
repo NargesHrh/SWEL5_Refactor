@@ -66,7 +66,7 @@ public class Parser {
             parsStack.push(parseTable.getGotoTable(parsStack.peek(), rule.getLHS()));
 //                        Log.print("");
             try {
-              cgf.semanticFunction(rule.getSemanticAction(), lookAhead);
+              cgf.semanticFunction(rule, lookAhead);
             } catch (Exception e) {
             }
             break;
