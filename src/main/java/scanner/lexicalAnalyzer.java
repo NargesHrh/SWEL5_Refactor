@@ -28,19 +28,17 @@ public class lexicalAnalyzer {
 
         while (matcher.find()) {
             for (Type t : Type.values()) {
-
-                if (matcher.group(t.name()) != null) {
-                    if (matcher.group(Type.COMMENT.name()) != null) {
-                        break;
-
-                    }
-                    if(matcher.group(Type.ErrorID.name())!=null){
-                        ErrorHandler.printError("The id must start with character");
-                        break;
-                    }
-
-                    return new Token(t, matcher.group(t.name()));
+                if (matcher.group(t.name()) == null) {
+                    continue;
                 }
+                if (matcher.group(Type.COMMENT.name()) != null) {
+                    break;
+                }
+                if(matcher.group(Type.ErrorID.name())!=null){
+                    ErrorHandler.printError("The id must start with character");
+                    break;
+                }
+                return new Token(t, matcher.group(t.name()));
             }
         }
         return new Token(Type.EOF,"$");
