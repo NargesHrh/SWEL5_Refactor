@@ -1,10 +1,10 @@
 package parser;
 
 public class Action {
-  public act action;
+  private act action;
   //if action = shift : number is state
   //if action = reduce : number is number of rule
-  public int number;
+  private int number;
 
   public Action(act action, int number) {
     this.action = action;
@@ -12,16 +12,25 @@ public class Action {
   }
 
   public String toString() {
-    switch (action) {
+    switch (getAction()) {
       case accept:
         return "acc";
       case shift:
-        return "s" + number;
+        return "s" + getNumber();
       case reduce:
-        return "r" + number;
+        return "r" + getNumber();
     }
-    return action.toString() + number;
+    return getAction().toString() + getNumber();
   }
+
+  public act getAction() {
+    return action;
+  }
+  public int getNumber() {
+    return number;
+  }
+
+
 }
 
 enum act {

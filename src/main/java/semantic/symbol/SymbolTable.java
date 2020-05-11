@@ -125,9 +125,9 @@ public class SymbolTable {
 
 
     class Klass {
-        public Map<String, Symbol> Fields;
-        public Map<String, Method> Methodes;
-        public Klass superClass;
+        private Map<String, Symbol> Fields;
+        private Map<String, Method> Methodes;
+        private Klass superClass;
 
         public Klass() {
             Fields = new HashMap<>();
@@ -145,13 +145,13 @@ public class SymbolTable {
     }
 
     class Method {
-        public int codeAddress;
-        public Map<String, Symbol> parameters;
-        public Map<String, Symbol> localVariable;
+        private int codeAddress;
+        private Map<String, Symbol> parameters;
+        private Map<String, Symbol> localVariable;
         private List<String> orderdParameters;
-        public int callerAddress;
-        public int returnAddress;
-        public SymbolType returnType;
+        private int callerAddress;
+        private int returnAddress;
+        private SymbolType returnType;
         private int index;
 
         public Method(int codeAddress, SymbolType returnType) {

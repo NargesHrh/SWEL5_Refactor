@@ -9,6 +9,9 @@ import java.util.List;
  * Created by mohammad hosein on 6/25/2015.
  */
 public class Rule {
+    private NonTerminal LHS;
+    private List<GrammarSymbol> RHS;
+    private int semanticAction;
     public Rule(String stringRule) {
         int index = stringRule.indexOf("#");
         if (index != -1) {
@@ -32,10 +35,10 @@ public class Rule {
             String[] RHSs = splited[1].split(" ");
             for (String s : RHSs){
                 try {
-                    RHS.add(new GrammarSymbol(NonTerminal.valueOf(s)));
+                    getRHS().add(new GrammarSymbol(NonTerminal.valueOf(s)));
                 } catch (Exception e) {
 //                    try{
-                        RHS.add(new GrammarSymbol(new Token(Token.getTyepFormString(s), s)));
+                        getRHS().add(new GrammarSymbol(new Token(Token.getTyepFormString(s), s)));
 //                    }catch (IllegalArgumentException d){
 //                        d.printStackTrace();
 //                        Log.print(s);
@@ -44,15 +47,25 @@ public class Rule {
             }
         }
     }
-    public NonTerminal LHS;
-    public List<GrammarSymbol> RHS;
-    public int semanticAction;
+
+    public NonTerminal getLHS() {
+        return LHS;
+    }
+
+    public int getSemanticAction() {
+        return semanticAction;
+    }
+
+    public List<GrammarSymbol> getRHS() {
+        return RHS;
+    }
 }
 
 class GrammarSymbol{
-    public boolean isTerminal;
-    public NonTerminal nonTerminal;
-    public Token terminal;
+    private boolean isTerminal;
+    private NonTerminal nonTerminal;
+    private Token terminal;
+
     public GrammarSymbol(NonTerminal nonTerminal)
     {
         this.nonTerminal = nonTerminal;
@@ -62,5 +75,13 @@ class GrammarSymbol{
     {
         this.terminal = terminal;
         isTerminal = true;
+    }
+
+    public NonTerminal getNonTerminal() {
+        return nonTerminal;
+    }
+
+    public Token getTerminal() {
+        return terminal;
     }
 }

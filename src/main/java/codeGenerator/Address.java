@@ -4,9 +4,9 @@ package codeGenerator;
  * Created by mohammad hosein on 6/28/2015.
  */
 public class Address {
-    public int num;
-    public TypeAddress Type;
-    public varType varType;
+    private int num;
+    private TypeAddress Type;
+    private varType varType;
 
     public Address(int num,varType varType, TypeAddress Type) {
         this.num = num;
@@ -20,14 +20,27 @@ public class Address {
         this.varType = varType;
     }
     public String toString(){
-        switch (Type){
+        switch (getType()){
             case Direct:
-                return num+"";
+                return getNum()+"";
             case Indirect:
-                return "@"+num;
+                return "@"+getNum();
             case Imidiate:
-                return "#"+num;
+                return "#"+getNum();
         }
-        return num+"";
+        return getNum()+"";
+    }
+
+    public TypeAddress getType() {
+        return Type;
+    }
+
+    public int getNum() {
+        return num;
+    }
+
+
+    public varType getVarType() {
+        return varType;
     }
 }
