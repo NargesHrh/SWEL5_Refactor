@@ -60,10 +60,10 @@ public class CodeGenerator {
                 assign();
                 break;
             case 10:
-                add();
+                addSub(true);
                 break;
             case 11:
-                sub();
+                addSub(false);
                 break;
             case 12:
                 mult();
@@ -163,17 +163,7 @@ public class CodeGenerator {
             try {
 
                 Symbol s = symbolTable.get(className, methodName, next.getValue());
-                varType t = varType.Int;
-                switch (s.getType()) {
-                    case Bool:
-                        t = varType.Bool;
-                        break;
-                    case Int:
-                        t = varType.Int;
-                        break;
-                }
-                ss.push(new Address(s.getAddress(), t));
-
+                ss.push(new Address(s.getAddress(), symToVar(s)));
 
             } catch (Exception e) {
                 ss.push(new Address(0, varType.Non));
@@ -186,11 +176,8 @@ public class CodeGenerator {
         symbolStack.push(next.getValue());
     }
 
-    public void fpid() {
-        ss.pop();
-        ss.pop();
+    public varType symToVar(Symbol s){
 
-        Symbol s = symbolTable.get(symbolStack.pop(), symbolStack.pop());
         varType t = varType.Int;
         switch (s.getType()) {
             case Bool:
@@ -200,7 +187,14 @@ public class CodeGenerator {
                 t = varType.Int;
                 break;
         }
-        ss.push(new Address(s.getAddress(), t));
+
+        return t;
+    }
+    public void fpid() {
+        ss.pop();
+        ss.pop();
+        Symbol s = symbolTable.get(symbolStack.pop(), symbolStack.pop());
+        ss.push(new Address(s.getAddress(), symToVar(s)));
 
     }
 
@@ -300,29 +294,28 @@ public class CodeGenerator {
             memory.add3AddressCode(Operation.ASSIGN, s1, s2, null);
 
     }
-
-    public void add() {
+    public void addSub (boolean addSub){
         Address temp = new Address(memory.getTemp(), varType.Int);
         Address s2 = ss.pop();
         Address s1 = ss.pop();
+        if(addSub){
+            if(s1.getVarType() != varType.Int || s2.getVarType() != varType.Int){
+                ErrorHandler.printError("In add two operands must be integer");
 
-        if (s1.getVarType() != varType.Int || s2.getVarType() != varType.Int) {
-            ErrorHandler.printError("In add two operands must be integer");
+            }
+            memory.add3AddressCode(Operation.ADD, s1, s2, temp);
+        }else {
+            if(s1.getVarType() != varType.Int || s2.getVarType() != varType.Int){
+                ErrorHandler.printError("In sub two operands must be integer");
+
+            }
+
+            memory.add3AddressCode(Operation.SUB, s1, s2, temp);
         }
-        memory.add3AddressCode(Operation.ADD, s1, s2, temp);
         ss.push(temp);
+
     }
 
-    public void sub() {
-        Address temp = new Address(memory.getTemp(), varType.Int);
-        Address s2 = ss.pop();
-        Address s1 = ss.pop();
-        if (s1.getVarType() != varType.Int || s2.getVarType() != varType.Int) {
-            ErrorHandler.printError("In sub two operands must be integer");
-        }
-        memory.add3AddressCode(Operation.SUB, s1, s2, temp);
-        ss.push(temp);
-    }
 
     public void mult() {
         Address temp = new Address(memory.getTemp(), varType.Int);
