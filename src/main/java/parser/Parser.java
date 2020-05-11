@@ -51,9 +51,7 @@ public class Parser {
 
         switch (currentAction.getAction()) {
           case shift:
-            parsStack.push(currentAction.getNumber());
-            lookAhead = lexicalAnalyzer.getNextToken();
-
+            lookAhead = doShiftAction(parsStack, lexicalAnalyzer, currentAction);
             break;
           case reduce:
             Rule rule = rules.get(currentAction.getNumber());
@@ -84,6 +82,11 @@ public class Parser {
       cgf.printMemory();
 
 
+  }
+
+  private Token doShiftAction(Stack<Integer> parsStack, lexicalAnalyzer lexicalAnalyzer, Action currentAction){
+    parsStack.push(currentAction.getNumber());
+    return lexicalAnalyzer.getNextToken();
   }
 
 
