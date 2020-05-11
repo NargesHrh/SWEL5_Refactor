@@ -17,6 +17,10 @@ public class Rule {
         String[] splited = stringRule.split("->");
         LHS = NonTerminal.valueOf(splited[0]);
         RHS = new ArrayList<GrammarSymbol>();
+        stringSplit(splited);
+    }
+
+    private void stringSplit(String[] splited){
         if (splited.length > 1) {
             String[] RHSs = splited[1].split(" ");
             for (String s : RHSs){
