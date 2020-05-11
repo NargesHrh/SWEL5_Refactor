@@ -48,7 +48,6 @@ public class Parser {
     while (!finish) {
       try {
         currentAction = parseTable.getActionTable(parsStack.peek(), lookAhead);
-        //Log.print("");
 
         switch (currentAction.getAction()) {
           case shift:
@@ -64,7 +63,6 @@ public class Parser {
 
 
             parsStack.push(parseTable.getGotoTable(parsStack.peek(), rule.getLHS()));
-//                        Log.print("");
             try {
               cgf.semanticFunction(rule, lookAhead);
             } catch (Exception e) {
@@ -78,21 +76,6 @@ public class Parser {
       } catch (Exception ignored) {
 
         ignored.printStackTrace();
-//                boolean find = false;
-//                for (NonTerminal t : NonTerminal.values()) {
-//                    if (parseTable.getGotoTable(parsStack.peek(), t) != -1) {
-//                        find = true;
-//                        parsStack.push(parseTable.getGotoTable(parsStack.peek(), t));
-//                        StringBuilder tokenFollow = new StringBuilder();
-//                        tokenFollow.append(String.format("|(?<%s>%s)", t.name(), t.pattern));
-//                        Matcher matcher = Pattern.compile(tokenFollow.substring(1)).matcher(lookAhead.toString());
-//                        while (!matcher.find()) {
-//                            lookAhead = lexicalAnalyzer.getNextToken();
-//                        }
-//                    }
-//                }
-//                if (!find)
-//                    parsStack.pop();
       }
 
 
