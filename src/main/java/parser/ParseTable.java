@@ -72,13 +72,7 @@ public class ParseTable {
 
     public int getGotoTable(int currentState, NonTerminal variable )
     {
-//        try {
-            return gotoTable.get(currentState).get(variable);
-//        }catch (NullPointerException dd)
-//        {
-//            dd.printStackTrace();
-//        }
-//        return 0;
+        return gotoTable.get(currentState).get(variable);
     }
     public Action getActionTable(int currentState ,Token terminal)
     {
