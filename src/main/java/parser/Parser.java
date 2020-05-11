@@ -54,17 +54,7 @@ public class Parser {
             lookAhead = doShiftAction(parsStack, lexicalAnalyzer, currentAction);
             break;
           case reduce:
-            Rule rule = rules.get(currentAction.getNumber());
-            for (int i = 0; i < rule.getRHS().size(); i++) {
-              parsStack.pop();
-            }
-
-
-            parsStack.push(parseTable.getGotoTable(parsStack.peek(), rule.getLHS()));
-            try {
-              cgf.semanticFunction(rule, lookAhead);
-            } catch (Exception e) {
-            }
+            doReduceAction(currentAction, lookAhead);
             break;
           case accept:
             finish = true;
@@ -87,6 +77,18 @@ public class Parser {
   private Token doShiftAction(Stack<Integer> parsStack, lexicalAnalyzer lexicalAnalyzer, Action currentAction){
     parsStack.push(currentAction.getNumber());
     return lexicalAnalyzer.getNextToken();
+  }
+
+  private void doReduceAction(Action currentAction, Token lookAhead){
+    Rule rule = rules.get(currentAction.getNumber());
+    for (int i = 0; i < rule.getRHS().size(); i++) {
+      parsStack.pop();
+    }
+    parsStack.push(parseTable.getGotoTable(parsStack.peek(), rule.getLHS()));
+    try {
+      cgf.semanticFunction(rule, lookAhead);
+    } catch (Exception e) {
+    }
   }
 
 
